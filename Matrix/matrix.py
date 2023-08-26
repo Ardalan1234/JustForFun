@@ -5,30 +5,49 @@ import random
 
 WIDTH = 1920
 HEIGHT = 1080
-BLOCK_SIZE = 10
+BLOCK_SIZE = 15
 
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
+# RAINBOW[Block.n % len(RAINBOW)] -> this is how you can use the RAINBOW color as an argument
+RAINBOW = [
+    (255, 0, 0),  # Red
+    (255, 127, 0),  # Orange
+    (255, 255, 0),  # Yellow
+    (127, 255, 0),  # Greenish Yellow
+    (0, 255, 0),  # Green
+    (0, 255, 127),  # Spring Green
+    (0, 255, 255),  # Cyan
+    (0, 127, 255),  # Sky Blue
+    (0, 0, 255),  # Blue
+    (127, 0, 255),  # Purple
+    (255, 0, 255)  # Magenta
+]
 
 LETTERS = string.ascii_letters + string.digits + string.punctuation
 FONT_SIZE = 20
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 FONT = pygame.font.SysFont('terminal', FONT_SIZE)
 clock = pygame.time.Clock()
-run = True
 
 
 class Block:
-    def __init__(self, x, y, speed, last):
+    n = 0
+
+    def __init__(self, x, y, speed, color, last):
         self.x = x
         self.y = y
         self.speed = speed
+        self.color = color
         self.interval = random.randint(5, 30)
         self.char = random.choice(LETTERS)
-        self.color = WHITE if last else GREEN
+        self.color = WHITE if last else self.color  # RAINBOW[Block.i % len(RAINBOW)]
+        Block.n += 1
 
     def draw(self, window):
         self.y = self.y + self.speed if self.y < HEIGHT else -BLOCK_SIZE
@@ -44,7 +63,7 @@ class Column:
         self.height = random.randint(10, 30)
         self.speed = random.randint(5, 10)
         self.blocks = [
-            Block(x=x, y=i, speed=self.speed, last=True if i == y else False)
+            Block(x=x, y=i, speed=self.speed, color=GREEN, last=True if i == y else False)
             for i in range(y, y - BLOCK_SIZE * self.height, -BLOCK_SIZE)
         ]
 
@@ -73,4 +92,3 @@ def main(window):
 
 if __name__ == '__main__':
     main(screen)
-

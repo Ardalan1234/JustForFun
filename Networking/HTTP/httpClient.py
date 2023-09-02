@@ -1,6 +1,6 @@
 import http.client
 
-HOST = '192.168.1.5'
+HOST = ''
 PORT = 8000
 
 # Create an HTTP connection

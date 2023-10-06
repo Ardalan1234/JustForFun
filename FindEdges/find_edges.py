@@ -45,7 +45,7 @@ def convolution(image, kernel):
 
 
 # Load the image
-image = plt.imread('C:\\Users\\Asus\\Pictures\\Saved Pictures\\3683148.jpeg')
+image = plt.imread('path\\to\\your\\image')
 
 # Find edges in the image
 edges = find_edges(image)
